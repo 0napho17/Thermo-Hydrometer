@@ -4,8 +4,6 @@
 import argparse
 
 import ConfigParser
-import requests
-import json
 import slackweb
 
 import Adafruit_DHT
