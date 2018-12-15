@@ -10,6 +10,52 @@ import slackweb
 
 import Adafruit_DHT
 
+def send_to_machinist(temperature, humidity):
+    # setup
+    inifile = ConfigParser.SafeConfigParser()
+    inifilename = '/home/sensor/Thermo-Hydrometer/.config'
+    inifile.read(inifilename)
+    api_key = inifile.get('Machinist', 'api_key')
+    agent_id = inifile.get('Machinist', 'agent_id')
+    location = inifile.get('common', 'location')
+    room = inifile.get('common', 'room')
+    url = 'https://gw.machinist.iij.jp/endpoint'
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + api_key
+    }
+    body = {
+        'agent_id': agent_id,
+        'metrics':
+        [
+            {
+                'name': 'temperature',
+                'namespace': 'sensors',
+                'tags': {
+                    'location': location,
+                    'room': room
+                },
+                'data_point': {
+                    'value': temperature
+                }
+            },
+            {
+                'name': 'humidity',
+                'namespace': 'sensors',
+                'tags': {
+                    'location': location,
+                    'room': room
+                },
+                'data_point': {
+                    'value': humidity
+                }
+            }
+        ]
+    }
+
+    res = requests.post(url, data=json.dumps(body), headers=headers)
+
 def send_to_slack(msg):
     # setup
 	inifile = ConfigParser.SafeConfigParser()
@@ -82,6 +128,7 @@ def main():
             msg += '\r\n'
             # send message via slack
             send_to_slack(msg)
+        send_to_machinist(temperature, humidity)
 
 
 if __name__ == '__main__':
