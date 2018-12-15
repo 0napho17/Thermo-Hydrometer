@@ -11,9 +11,9 @@ import Adafruit_DHT
 def send_to_slack(msg):
     # setup
 	inifile = ConfigParser.SafeConfigParser()
-	inifilename = '/home/sensor/.slack_config'
+	inifilename = '/home/sensor/Thermo-Hydrometer/.config'
 	inifile.read(inifilename)
-	webhook_url = inifile.get('Thermo-Hydrometer', 'webhookURL')
+	webhook_url = inifile.get('Slack', 'webhookURL')
 
     # send message
 	slack = slackweb.Slack(url=webhook_url)
