@@ -1,0 +1,8 @@
+[common]
+location = <LOCATION>
+room = <ROOM NAME>
+[Machinist]
+api_key = <API KEY>
+agent_id = <AGENT ID>
+[Slack]
+webhookURL = <URL>

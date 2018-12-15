@@ -1,3 +1,0 @@
-[Thermo-Hydrometer]
-webhookURL = WEBHOOK_URL
-replyTarget = TARGET_NAME
